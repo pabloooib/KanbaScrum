@@ -3,248 +3,283 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HelpDesk-PRO · Gestión de Soporte Técnico | UPANA</title>
-<meta name="description" content="HelpDesk-PRO: sistema de gestión de soporte técnico e incidencias. Proyecto individual de Administración de Proyectos, UPANA.">
+<title>HelpDesk-PRO · Soporte técnico | UPANA</title>
+<meta name="description" content="HelpDesk-PRO: gestión de soporte técnico e incidencias. Proyecto individual de Administración de Proyectos, UPANA.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-view="login">
 
-<!-- ============ NAVEGACIÓN ============ -->
-<nav class="topbar no-print" aria-label="Navegación principal">
-  <div class="wrap topbar-in">
-    <a href="#inicio" class="brand">
-      <span class="logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 18 0"/><path d="M21 16a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2z"/><path d="M3 16a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2z"/><path d="M18 18v1a3 3 0 0 1-3 3h-2"/></svg>
-      </span>
-      <span>HelpDesk<b>-PRO</b></span>
-    </a>
-    <div class="nav-links">
-      <a href="#inicio">Inicio</a>
-      <a href="#kanban">Kanban</a>
-      <a href="#scrum">Scrum</a>
-    </div>
-    <div class="nav-right">
-      <span class="conn" id="conn" title="Estado de la base de datos"><i></i><span id="conn-text">Conectando…</span></span>
-      <button class="btn btn-accent" id="btn-pdf" type="button">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-        <span>Exportar a PDF</span>
+<!-- ================= LOGIN / BIENVENIDA ================= -->
+<main id="login" class="view" aria-label="Acceso">
+  <div class="login-shell">
+    <section class="login-main">
+      <img class="login-logo" src="favicon.png" alt="Logo de HelpDesk-PRO" width="64" height="64">
+      <p class="login-greet" id="greet">Hola</p>
+      <h1>Bienvenido a <span>HelpDesk-PRO</span></h1>
+      <p class="login-text">Un espacio para ordenar las incidencias de soporte técnico del proyecto, con un tablero Kanban y el marco de trabajo Scrum.</p>
+      <button class="btn btn-primary btn-lg" id="btn-login" type="button">
+        Acceder
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
       </button>
-    </div>
-  </div>
-</nav>
+      <p class="login-foot">Proyecto individual · Administración de Proyectos</p>
+    </section>
 
-<!-- ============ BIENVENIDA ============ -->
-<header class="hero" id="inicio">
-  <div class="hero-glow" id="glow" aria-hidden="true"></div>
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow"><i></i>Administración de Proyectos · Proyecto individual</span>
-      <h1><span id="greet">Bienvenido</span>,<br>a <em>HelpDesk-PRO</em></h1>
-      <p class="lead">Sistema de gestión de soporte técnico e incidencias de usuarios, administrado con el marco ágil Scrum y un tablero Kanban sincronizado en la nube.</p>
-      <div class="hero-cta no-print">
-        <a href="#kanban" class="btn btn-accent">Ir al tablero</a>
-        <a href="#scrum" class="btn btn-ghost">Ver marco Scrum</a>
-        <button class="btn btn-ghost" id="btn-new-hero" type="button">+ Nuevo ticket</button>
-      </div>
-      <div class="kpis">
-        <div class="kpi"><span class="kpi-n" id="k-total">0</span><span class="kpi-l">Tickets</span></div>
-        <div class="kpi"><span class="kpi-n" id="k-open">0</span><span class="kpi-l">Abiertos</span></div>
-        <div class="kpi"><span class="kpi-n" id="k-crit">0</span><span class="kpi-l">Críticos</span></div>
-        <div class="kpi"><span class="kpi-n"><span id="k-pct">0</span>%</span><span class="kpi-l">Resueltos</span></div>
-      </div>
-    </div>
-
-    <aside class="student-card" aria-label="Datos del estudiante">
-      <div class="student-top">
-        <div class="avatar" aria-hidden="true">JI</div>
-        <div>
-          <span class="s-tag">Estudiante</span>
-          <h2>José Pablo Ibañez Ibañez</h2>
-        </div>
-      </div>
-      <dl class="s-list">
-        <div><dt>ID</dt><dd class="mono">000149294</dd></div>
+    <aside class="login-card" aria-label="Datos del estudiante">
+      <span class="lc-label">Ficha del estudiante</span>
+      <h2>José Pablo<br>Ibañez Ibañez</h2>
+      <dl>
+        <div><dt>ID</dt><dd>000149294</dd></div>
         <div><dt>Carrera</dt><dd>Ingeniería en Sistemas</dd></div>
-        <div><dt>Universidad</dt><dd>UPANA (Universidad Panamericana)</dd></div>
-        <div><dt>Proyecto</dt><dd>HelpDesk-PRO</dd></div>
-        <div><dt>Rol</dt><dd>PO · Scrum Master · Developer</dd></div>
+        <div><dt>Universidad</dt><dd>UPANA<small>Universidad Panamericana</small></dd></div>
       </dl>
     </aside>
   </div>
-</header>
-
-<main class="wrap">
-
-  <!-- Encabezado solo para impresión -->
-  <div class="print-head print-only">
-    <div>
-      <strong>UPANA · Universidad Panamericana</strong>
-      <span>Ingeniería en Sistemas · Administración de Proyectos</span>
-    </div>
-    <div class="ph-right">
-      <span><b>Estudiante:</b> José Pablo Ibañez Ibañez</span>
-      <span><b>ID:</b> 000149294</span>
-      <span><b>Fecha:</b> <span id="print-date"></span></span>
-    </div>
-  </div>
-
-  <!-- ============ KANBAN ============ -->
-  <section class="section" id="kanban">
-    <div class="sec-head">
-      <div>
-        <span class="sec-kicker">Sección 1</span>
-        <h2>Tablero Kanban de incidencias</h2>
-        <p>Arrastra los tickets entre columnas o usa los botones ◀ ▶. Los cambios se guardan en Firebase.</p>
-      </div>
-      <div class="toolbar no-print">
-        <input type="search" id="search" placeholder="Buscar ticket, etiqueta…" aria-label="Buscar ticket">
-        <select id="filter-prio" aria-label="Filtrar por prioridad">
-          <option value="">Todas las prioridades</option>
-          <option>Crítica</option><option>Alta</option><option>Media</option><option>Baja</option>
-        </select>
-        <button class="btn btn-accent" id="btn-new" type="button">+ Nuevo ticket</button>
-        <button class="btn btn-ghost" id="btn-reset" type="button">Restablecer</button>
-      </div>
-    </div>
-    <div class="board" id="board" aria-live="polite"></div>
-  </section>
-
-  <!-- ============ SCRUM ============ -->
-  <section class="section" id="scrum">
-    <div class="sec-head">
-      <div>
-        <span class="sec-kicker">Sección 2</span>
-        <h2>Marco de trabajo Scrum adaptado</h2>
-        <p>Cómo se aplica Scrum en un proyecto individual: roles, Sprint, Definición de Hecho y Product Backlog.</p>
-      </div>
-    </div>
-
-    <div class="tabs no-print" role="tablist" aria-label="Módulos de Scrum">
-      <button class="tab" role="tab" aria-selected="true" aria-controls="p-roles" data-tab="roles" type="button">Roles</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-sprint" data-tab="sprint" type="button">Sprint (2 semanas)</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-dod" data-tab="dod" type="button">Definición de Hecho</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-backlog" data-tab="backlog" type="button">Product Backlog</button>
-    </div>
-
-    <!-- Roles -->
-    <div class="tabpanel active" id="p-roles" role="tabpanel" data-title="Roles Scrum asumidos de forma individual">
-      <p class="muted">En un equipo de una sola persona, los tres roles se asumen alternando el enfoque según la actividad del día.</p>
-      <div class="grid-3">
-        <article class="role r1">
-          <span class="role-ico">PO</span>
-          <h3>Product Owner</h3>
-          <p class="role-sub">Maximiza el valor del producto</p>
-          <ul>
-            <li>Define la visión y el alcance de HelpDesk-PRO.</li>
-            <li>Mantiene y prioriza el Product Backlog.</li>
-            <li>Redacta historias de usuario y criterios de aceptación.</li>
-            <li>Acepta o rechaza el incremento en la Sprint Review.</li>
-          </ul>
-        </article>
-        <article class="role r2">
-          <span class="role-ico">SM</span>
-          <h3>Scrum Master</h3>
-          <p class="role-sub">Garantiza la correcta aplicación de Scrum</p>
-          <ul>
-            <li>Facilita las ceremonias y respeta los timeboxes.</li>
-            <li>Detecta y elimina impedimentos.</li>
-            <li>Mantiene actualizado el tablero Kanban.</li>
-            <li>Conduce la retrospectiva y propone mejoras.</li>
-          </ul>
-        </article>
-        <article class="role r3">
-          <span class="role-ico">DEV</span>
-          <h3>Developer</h3>
-          <p class="role-sub">Construye el incremento del producto</p>
-          <ul>
-            <li>Estima y se compromete con el Sprint Backlog.</li>
-            <li>Diseña, programa e integra las funcionalidades.</li>
-            <li>Ejecuta pruebas y corrige defectos.</li>
-            <li>Cumple la Definición de Hecho en cada ticket.</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-
-    <!-- Sprint -->
-    <div class="tabpanel" id="p-sprint" role="tabpanel" data-title="Configuración del Sprint">
-      <div class="goal"><b>Meta del Sprint 1</b>Disponer de un flujo funcional de gestión de incidencias: registrar un ticket, clasificarlo por prioridad, moverlo por el tablero y cerrarlo, con persistencia en la nube.</div>
-      <div class="grid-2">
-        <div class="card-box">
-          <h4>Parámetros</h4>
-          <div class="kv"><span>Duración</span><b>2 semanas (10 días hábiles)</b></div>
-          <div class="kv"><span>Inicio</span><b>Lunes 5 de octubre de 2026</b></div>
-          <div class="kv"><span>Fin</span><b>Viernes 16 de octubre de 2026</b></div>
-          <div class="kv"><span>Capacidad</span><b>40 h efectivas (4 h/día)</b></div>
-          <div class="kv"><span>Compromiso actual</span><b id="sp-pts">—</b></div>
-        </div>
-        <div class="card-box">
-          <h4>Ceremonias</h4>
-          <div class="kv"><span>Sprint Planning</span><b>Lun 5 oct · 1 h</b></div>
-          <div class="kv"><span>Daily Scrum</span><b>Diario · 15 min</b></div>
-          <div class="kv"><span>Refinamiento</span><b>Mié 7 oct · 30 min</b></div>
-          <div class="kv"><span>Sprint Review</span><b>Vie 16 oct · 45 min</b></div>
-          <div class="kv"><span>Retrospectiva</span><b>Vie 16 oct · 30 min</b></div>
-        </div>
-      </div>
-      <div class="card-box" style="margin-top:16px">
-        <h4>Burndown (puntos restantes)</h4>
-        <div id="burndown"></div>
-        <div class="legend"><span><i class="l-ideal"></i>Ideal</span><span><i class="l-real"></i>Restante actual</span></div>
-      </div>
-    </div>
-
-    <!-- DoD -->
-    <div class="tabpanel" id="p-dod" role="tabpanel" data-title="Definición de Hecho (DoD)">
-      <p class="muted">Un ticket solo puede pasar a <b>Resueltos / Cerrados</b> si cumple todos los criterios. Marca la lista como guía de verificación.</p>
-      <div id="dod-list"></div>
-      <div class="meter"><div id="dod-bar"></div></div>
-      <p class="muted small" id="dod-txt"></p>
-    </div>
-
-    <!-- Backlog -->
-    <div class="tabpanel" id="p-backlog" role="tabpanel" data-title="Product Backlog priorizado">
-      <p class="muted">Historias de usuario ordenadas por valor de negocio (MoSCoW). Estimación en puntos de historia (escala Fibonacci).</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>ID</th><th>Historia de usuario</th><th>Prioridad</th><th>Puntos</th><th>Destino</th></tr></thead>
-          <tbody id="backlog-body"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
 </main>
 
-<footer class="footer">
-  <div class="wrap">HelpDesk-PRO · José Pablo Ibañez Ibañez · ID 000149294 · Ingeniería en Sistemas · UPANA (Universidad Panamericana)</div>
-</footer>
+<!-- ================= APLICACIÓN ================= -->
+<div id="app" class="view">
 
-<!-- ============ MODAL NUEVO TICKET ============ -->
-<dialog id="dlg" aria-labelledby="dlg-title">
-  <form id="form" method="dialog" class="dlg">
-    <h3 id="dlg-title">Nuevo ticket de soporte</h3>
-    <label for="f-title">Título</label>
-    <input id="f-title" required maxlength="90" placeholder="Ej. Sin acceso a la VPN desde casa">
-    <label for="f-desc">Descripción</label>
-    <textarea id="f-desc" rows="3" maxlength="220" placeholder="Describe el problema y el impacto"></textarea>
+  <header class="topbar no-print">
+    <div class="wrap topbar-in">
+      <a class="brand" href="#kanban">
+        <img src="favicon.png" alt="" width="30" height="30">
+        <span>HelpDesk<b>-PRO</b></span>
+      </a>
+      <nav class="nav-links" aria-label="Secciones">
+        <a href="#kanban">Kanban</a>
+        <a href="#scrum">Scrum</a>
+      </nav>
+      <div class="nav-right">
+        <span class="conn" id="conn" title="Estado de la base de datos"><i></i><span id="conn-text">Conectando…</span></span>
+        <button class="btn btn-soft" id="btn-pdf" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span>Exportar PDF</span>
+        </button>
+        <button class="btn btn-quiet" id="btn-logout" type="button" title="Cerrar la sesión">Salir</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <!-- Encabezado que solo aparece en el PDF -->
+    <div class="print-head print-only">
+      <img src="favicon.png" alt="" width="44" height="44">
+      <div class="ph-title">
+        <strong>HelpDesk-PRO</strong>
+        <span>Sistema de gestión de soporte técnico e incidencias · Administración de Proyectos</span>
+      </div>
+      <dl class="ph-data">
+        <div><dt>Nombre</dt><dd>José Pablo Ibañez Ibañez</dd></div>
+        <div><dt>ID</dt><dd>000149294</dd></div>
+        <div><dt>Carrera</dt><dd>Ingeniería en Sistemas</dd></div>
+        <div><dt>Universidad</dt><dd>UPANA (Universidad Panamericana)</dd></div>
+        <div><dt>Fecha</dt><dd id="print-date"></dd></div>
+      </dl>
+    </div>
+
+    <!-- ============ KANBAN ============ -->
+    <section class="section" id="kanban">
+      <div class="sec-head">
+        <div>
+          <h2>Tablero Kanban</h2>
+          <p>Arrastra los tickets entre columnas o usa las flechas de cada tarjeta. <span class="sum no-print" id="sum"></span></p>
+        </div>
+        <div class="toolbar no-print">
+          <input type="search" id="search" placeholder="Buscar ticket…" aria-label="Buscar ticket">
+          <select id="filter-prio" aria-label="Filtrar por prioridad">
+            <option value="">Todas las prioridades</option>
+            <option>Crítica</option><option>Alta</option><option>Media</option><option>Baja</option>
+          </select>
+          <button class="btn btn-primary" id="btn-new" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Nuevo ticket
+          </button>
+        </div>
+      </div>
+      <div class="board" id="board" aria-live="polite"></div>
+    </section>
+
+    <!-- ============ SCRUM ============ -->
+    <section class="section" id="scrum">
+      <div class="sec-head">
+        <div>
+          <h2>Marco de trabajo Scrum</h2>
+          <p>Cómo se aplica Scrum en un proyecto individual: roles, Sprint, Definición de Hecho y Product Backlog.</p>
+        </div>
+      </div>
+
+      <div class="tabs no-print" role="tablist" aria-label="Módulos de Scrum">
+        <button class="tab" role="tab" aria-selected="true"  data-tab="roles"   type="button">Roles</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="sprint"  type="button">Sprint de 2 semanas</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="dod"     type="button">Definición de Hecho</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="backlog" type="button">Product Backlog</button>
+      </div>
+
+      <!-- Roles -->
+      <div class="tabpanel active" id="p-roles" role="tabpanel" data-title="Roles Scrum asumidos de forma individual">
+        <p class="note">En un equipo de una sola persona, los tres roles se asumen alternando el enfoque según la actividad del día.</p>
+        <div class="grid-3">
+          <article class="role r1">
+            <h3>Product Owner</h3>
+            <p class="role-sub">Cuida el valor del producto</p>
+            <ul>
+              <li>Define la visión y el alcance de HelpDesk-PRO.</li>
+              <li>Mantiene y prioriza el Product Backlog.</li>
+              <li>Redacta historias de usuario y criterios de aceptación.</li>
+              <li>Acepta o rechaza el incremento en la Sprint Review.</li>
+            </ul>
+          </article>
+          <article class="role r2">
+            <h3>Scrum Master</h3>
+            <p class="role-sub">Cuida que Scrum se aplique bien</p>
+            <ul>
+              <li>Facilita las ceremonias y respeta los tiempos.</li>
+              <li>Detecta y elimina impedimentos.</li>
+              <li>Mantiene al día el tablero Kanban.</li>
+              <li>Conduce la retrospectiva y propone mejoras.</li>
+            </ul>
+          </article>
+          <article class="role r3">
+            <h3>Developer</h3>
+            <p class="role-sub">Construye el incremento</p>
+            <ul>
+              <li>Estima y se compromete con el Sprint Backlog.</li>
+              <li>Diseña, programa e integra las funcionalidades.</li>
+              <li>Ejecuta pruebas y corrige defectos.</li>
+              <li>Cumple la Definición de Hecho en cada ticket.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <!-- Sprint -->
+      <div class="tabpanel" id="p-sprint" role="tabpanel" data-title="Configuración del Sprint (2 semanas)">
+        <div class="goal"><b>Meta del Sprint 1</b>Tener un flujo funcional de gestión de incidencias: registrar un ticket, clasificarlo por prioridad, moverlo por el tablero y cerrarlo, con los datos guardados en la nube.</div>
+        <div class="grid-2">
+          <div class="box">
+            <h4>Parámetros</h4>
+            <div class="kv"><span>Duración</span><b>2 semanas (10 días hábiles)</b></div>
+            <div class="kv"><span>Inicio</span><b>Lunes 5 de octubre de 2026</b></div>
+            <div class="kv"><span>Fin</span><b>Viernes 16 de octubre de 2026</b></div>
+            <div class="kv"><span>Capacidad</span><b>40 h efectivas (4 h al día)</b></div>
+            <div class="kv"><span>Compromiso actual</span><b id="sp-pts">—</b></div>
+          </div>
+          <div class="box">
+            <h4>Ceremonias</h4>
+            <div class="kv"><span>Sprint Planning</span><b>Lun 5 oct · 1 h</b></div>
+            <div class="kv"><span>Daily Scrum</span><b>Diario · 15 min</b></div>
+            <div class="kv"><span>Refinamiento</span><b>Mié 7 oct · 30 min</b></div>
+            <div class="kv"><span>Sprint Review</span><b>Vie 16 oct · 45 min</b></div>
+            <div class="kv"><span>Retrospectiva</span><b>Vie 16 oct · 30 min</b></div>
+          </div>
+        </div>
+        <div class="box screen-only" style="margin-top:16px">
+          <h4>Burndown (puntos que faltan)</h4>
+          <div id="burndown"></div>
+          <div class="legend"><span><i class="l-ideal"></i>Ideal</span><span><i class="l-real"></i>Actual</span></div>
+        </div>
+      </div>
+
+      <!-- DoD -->
+      <div class="tabpanel" id="p-dod" role="tabpanel" data-title="Definición de Hecho (DoD)">
+        <p class="note">Un ticket solo pasa a <b>Resueltos / Cerrados</b> cuando cumple estos criterios. Marca los que ya verificaste; puedes agregar o quitar criterios.</p>
+        <div id="dod-list"></div>
+        <form class="inline-add no-print" id="dod-form" autocomplete="off">
+          <input id="dod-new" maxlength="140" placeholder="Escribe un nuevo criterio…" aria-label="Nuevo criterio" required>
+          <button class="btn btn-primary" type="submit">Agregar criterio</button>
+        </form>
+        <div class="meter screen-only"><div id="dod-bar"></div></div>
+        <p class="note small screen-only" id="dod-txt"></p>
+      </div>
+
+      <!-- Backlog -->
+      <div class="tabpanel" id="p-backlog" role="tabpanel" data-title="Product Backlog priorizado">
+        <div class="panel-bar">
+          <p class="note">Historias de usuario ordenadas por valor de negocio (MoSCoW), con puntos de historia en escala Fibonacci.</p>
+          <button class="btn btn-primary no-print" id="btn-new-story" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Nueva historia
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Historia de usuario</th><th>Prioridad</th><th>Puntos</th><th>Destino</th><th class="no-print"><span class="sr">Acciones</span></th></tr></thead>
+            <tbody id="backlog-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer no-print">
+    <div class="wrap">
+      <span>HelpDesk-PRO · José Pablo Ibañez Ibañez · ID 000149294 · UPANA</span>
+      <button class="link-btn" id="btn-reset" type="button">Restablecer datos de ejemplo</button>
+    </div>
+  </footer>
+</div>
+
+<!-- ================= DIÁLOGOS ================= -->
+<dialog id="dlg-ticket" aria-labelledby="dt-title">
+  <form id="form-ticket" method="dialog" class="dlg">
+    <h3 id="dt-title">Nuevo ticket</h3>
+    <label for="t-title">Título</label>
+    <input id="t-title" required maxlength="90" placeholder="Ej. Sin acceso a la VPN desde casa">
+    <label for="t-desc">Descripción</label>
+    <textarea id="t-desc" rows="3" maxlength="220" placeholder="¿Qué pasa y a quién afecta?"></textarea>
     <div class="row">
-      <div><label for="f-prio">Prioridad</label>
-        <select id="f-prio"><option>Crítica</option><option>Alta</option><option selected>Media</option><option>Baja</option></select></div>
-      <div><label for="f-pts">Puntos</label>
-        <select id="f-pts"><option>1</option><option>2</option><option selected>3</option><option>5</option><option>8</option></select></div>
+      <div><label for="t-prio">Prioridad</label>
+        <select id="t-prio"><option>Crítica</option><option>Alta</option><option selected>Media</option><option>Baja</option></select></div>
+      <div><label for="t-pts">Puntos</label>
+        <select id="t-pts"><option>1</option><option>2</option><option selected>3</option><option>5</option><option>8</option></select></div>
     </div>
     <div class="row">
-      <div><label for="f-tag">Etiqueta</label>
-        <select id="f-tag"><option>Red</option><option>Acceso/SSO</option><option>Impresoras</option><option>Software</option><option>Hardware</option><option>Correo</option><option>Seguridad</option></select></div>
-      <div><label for="f-user">Reportado por</label>
-        <input id="f-user" maxlength="40" placeholder="Nombre del usuario"></div>
+      <div><label for="t-tag">Etiqueta</label>
+        <select id="t-tag"><option>Red</option><option>Acceso/SSO</option><option>Impresoras</option><option>Software</option><option>Hardware</option><option>Correo</option><option>Seguridad</option></select></div>
+      <div><label for="t-user">Reportado por</label>
+        <input id="t-user" maxlength="40" placeholder="Nombre del usuario"></div>
     </div>
     <div class="dlg-btns">
-      <button type="button" class="btn btn-ghost" id="dlg-cancel">Cancelar</button>
-      <button type="submit" class="btn btn-accent">Crear ticket</button>
+      <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary">Crear ticket</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-story" aria-labelledby="ds-title">
+  <form id="form-story" method="dialog" class="dlg">
+    <h3 id="ds-title">Nueva historia de usuario</h3>
+    <label for="s-text">Historia</label>
+    <textarea id="s-text" rows="3" required maxlength="220" placeholder="Como [rol], quiero [acción] para [beneficio]."></textarea>
+    <div class="row">
+      <div><label for="s-prio">Prioridad</label>
+        <select id="s-prio"><option>Must</option><option selected>Should</option><option>Could</option></select></div>
+      <div><label for="s-pts">Puntos</label>
+        <select id="s-pts"><option>1</option><option>2</option><option>3</option><option selected>5</option><option>8</option><option>13</option></select></div>
+    </div>
+    <label for="s-sprint">Destino</label>
+    <select id="s-sprint"><option>Sprint 1</option><option>Sprint 2</option><option>Sprint 3</option><option>Sprint 4</option></select>
+    <div class="dlg-btns">
+      <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary">Agregar historia</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-confirm" aria-labelledby="cf-title">
+  <form method="dialog" class="dlg">
+    <h3 id="cf-title">¿Eliminar?</h3>
+    <p class="cf-text" id="cf-text"></p>
+    <div class="dlg-btns">
+      <button value="cancel" class="btn btn-ghost">Cancelar</button>
+      <button value="ok" class="btn btn-danger">Eliminar</button>
     </div>
   </form>
 </dialog>
