@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HelpDesk-PRO · Gestión de Soporte Técnico | UPANA</title>
+<meta name="description" content="HelpDesk-PRO: sistema de gestión de soporte técnico e incidencias. Proyecto individual de Administración de Proyectos, UPANA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ NAVEGACIÓN ============ -->
+<nav class="topbar no-print" aria-label="Navegación principal">
+  <div class="wrap topbar-in">
+    <a href="#inicio" class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 18 0"/><path d="M21 16a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2z"/><path d="M3 16a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2z"/><path d="M18 18v1a3 3 0 0 1-3 3h-2"/></svg>
+      </span>
+      <span>HelpDesk<b>-PRO</b></span>
+    </a>
+    <div class="nav-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#kanban">Kanban</a>
+      <a href="#scrum">Scrum</a>
+    </div>
+    <div class="nav-right">
+      <span class="conn" id="conn" title="Estado de la base de datos"><i></i><span id="conn-text">Conectando…</span></span>
+      <button class="btn btn-accent" id="btn-pdf" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <span>Exportar a PDF</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ BIENVENIDA ============ -->
+<header class="hero" id="inicio">
+  <div class="hero-glow" id="glow" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow"><i></i>Administración de Proyectos · Proyecto individual</span>
+      <h1><span id="greet">Bienvenido</span>,<br>a <em>HelpDesk-PRO</em></h1>
+      <p class="lead">Sistema de gestión de soporte técnico e incidencias de usuarios, administrado con el marco ágil Scrum y un tablero Kanban sincronizado en la nube.</p>
+      <div class="hero-cta no-print">
+        <a href="#kanban" class="btn btn-accent">Ir al tablero</a>
+        <a href="#scrum" class="btn btn-ghost">Ver marco Scrum</a>
+        <button class="btn btn-ghost" id="btn-new-hero" type="button">+ Nuevo ticket</button>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span class="kpi-n" id="k-total">0</span><span class="kpi-l">Tickets</span></div>
+        <div class="kpi"><span class="kpi-n" id="k-open">0</span><span class="kpi-l">Abiertos</span></div>
+        <div class="kpi"><span class="kpi-n" id="k-crit">0</span><span class="kpi-l">Críticos</span></div>
+        <div class="kpi"><span class="kpi-n"><span id="k-pct">0</span>%</span><span class="kpi-l">Resueltos</span></div>
+      </div>
+    </div>
+
+    <aside class="student-card" aria-label="Datos del estudiante">
+      <div class="student-top">
+        <div class="avatar" aria-hidden="true">JI</div>
+        <div>
+          <span class="s-tag">Estudiante</span>
+          <h2>José Pablo Ibañez Ibañez</h2>
+        </div>
+      </div>
+      <dl class="s-list">
+        <div><dt>ID</dt><dd class="mono">000149294</dd></div>
+        <div><dt>Carrera</dt><dd>Ingeniería en Sistemas</dd></div>
+        <div><dt>Universidad</dt><dd>UPANA (Universidad Panamericana)</dd></div>
+        <div><dt>Proyecto</dt><dd>HelpDesk-PRO</dd></div>
+        <div><dt>Rol</dt><dd>PO · Scrum Master · Developer</dd></div>
+      </dl>
+    </aside>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Encabezado solo para impresión -->
+  <div class="print-head print-only">
+    <div>
+      <strong>UPANA · Universidad Panamericana</strong>
+      <span>Ingeniería en Sistemas · Administración de Proyectos</span>
+    </div>
+    <div class="ph-right">
+      <span><b>Estudiante:</b> José Pablo Ibañez Ibañez</span>
+      <span><b>ID:</b> 000149294</span>
+      <span><b>Fecha:</b> <span id="print-date"></span></span>
+    </div>
+  </div>
+
+  <!-- ============ KANBAN ============ -->
+  <section class="section" id="kanban">
+    <div class="sec-head">
+      <div>
+        <span class="sec-kicker">Sección 1</span>
+        <h2>Tablero Kanban de incidencias</h2>
+        <p>Arrastra los tickets entre columnas o usa los botones ◀ ▶. Los cambios se guardan en Firebase.</p>
+      </div>
+      <div class="toolbar no-print">
+        <input type="search" id="search" placeholder="Buscar ticket, etiqueta…" aria-label="Buscar ticket">
+        <select id="filter-prio" aria-label="Filtrar por prioridad">
+          <option value="">Todas las prioridades</option>
+          <option>Crítica</option><option>Alta</option><option>Media</option><option>Baja</option>
+        </select>
+        <button class="btn btn-accent" id="btn-new" type="button">+ Nuevo ticket</button>
+        <button class="btn btn-ghost" id="btn-reset" type="button">Restablecer</button>
+      </div>
+    </div>
+    <div class="board" id="board" aria-live="polite"></div>
+  </section>
+
+  <!-- ============ SCRUM ============ -->
+  <section class="section" id="scrum">
+    <div class="sec-head">
+      <div>
+        <span class="sec-kicker">Sección 2</span>
+        <h2>Marco de trabajo Scrum adaptado</h2>
+        <p>Cómo se aplica Scrum en un proyecto individual: roles, Sprint, Definición de Hecho y Product Backlog.</p>
+      </div>
+    </div>
+
+    <div class="tabs no-print" role="tablist" aria-label="Módulos de Scrum">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="p-roles" data-tab="roles" type="button">Roles</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-sprint" data-tab="sprint" type="button">Sprint (2 semanas)</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-dod" data-tab="dod" type="button">Definición de Hecho</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-backlog" data-tab="backlog" type="button">Product Backlog</button>
+    </div>
+
+    <!-- Roles -->
+    <div class="tabpanel active" id="p-roles" role="tabpanel" data-title="Roles Scrum asumidos de forma individual">
+      <p class="muted">En un equipo de una sola persona, los tres roles se asumen alternando el enfoque según la actividad del día.</p>
+      <div class="grid-3">
+        <article class="role r1">
+          <span class="role-ico">PO</span>
+          <h3>Product Owner</h3>
+          <p class="role-sub">Maximiza el valor del producto</p>
+          <ul>
+            <li>Define la visión y el alcance de HelpDesk-PRO.</li>
+            <li>Mantiene y prioriza el Product Backlog.</li>
+            <li>Redacta historias de usuario y criterios de aceptación.</li>
+            <li>Acepta o rechaza el incremento en la Sprint Review.</li>
+          </ul>
+        </article>
+        <article class="role r2">
+          <span class="role-ico">SM</span>
+          <h3>Scrum Master</h3>
+          <p class="role-sub">Garantiza la correcta aplicación de Scrum</p>
+          <ul>
+            <li>Facilita las ceremonias y respeta los timeboxes.</li>
+            <li>Detecta y elimina impedimentos.</li>
+            <li>Mantiene actualizado el tablero Kanban.</li>
+            <li>Conduce la retrospectiva y propone mejoras.</li>
+          </ul>
+        </article>
+        <article class="role r3">
+          <span class="role-ico">DEV</span>
+          <h3>Developer</h3>
+          <p class="role-sub">Construye el incremento del producto</p>
+          <ul>
+            <li>Estima y se compromete con el Sprint Backlog.</li>
+            <li>Diseña, programa e integra las funcionalidades.</li>
+            <li>Ejecuta pruebas y corrige defectos.</li>
+            <li>Cumple la Definición de Hecho en cada ticket.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <!-- Sprint -->
+    <div class="tabpanel" id="p-sprint" role="tabpanel" data-title="Configuración del Sprint">
+      <div class="goal"><b>Meta del Sprint 1</b>Disponer de un flujo funcional de gestión de incidencias: registrar un ticket, clasificarlo por prioridad, moverlo por el tablero y cerrarlo, con persistencia en la nube.</div>
+      <div class="grid-2">
+        <div class="card-box">
+          <h4>Parámetros</h4>
+          <div class="kv"><span>Duración</span><b>2 semanas (10 días hábiles)</b></div>
+          <div class="kv"><span>Inicio</span><b>Lunes 5 de octubre de 2026</b></div>
+          <div class="kv"><span>Fin</span><b>Viernes 16 de octubre de 2026</b></div>
+          <div class="kv"><span>Capacidad</span><b>40 h efectivas (4 h/día)</b></div>
+          <div class="kv"><span>Compromiso actual</span><b id="sp-pts">—</b></div>
+        </div>
+        <div class="card-box">
+          <h4>Ceremonias</h4>
+          <div class="kv"><span>Sprint Planning</span><b>Lun 5 oct · 1 h</b></div>
+          <div class="kv"><span>Daily Scrum</span><b>Diario · 15 min</b></div>
+          <div class="kv"><span>Refinamiento</span><b>Mié 7 oct · 30 min</b></div>
+          <div class="kv"><span>Sprint Review</span><b>Vie 16 oct · 45 min</b></div>
+          <div class="kv"><span>Retrospectiva</span><b>Vie 16 oct · 30 min</b></div>
+        </div>
+      </div>
+      <div class="card-box" style="margin-top:16px">
+        <h4>Burndown (puntos restantes)</h4>
+        <div id="burndown"></div>
+        <div class="legend"><span><i class="l-ideal"></i>Ideal</span><span><i class="l-real"></i>Restante actual</span></div>
+      </div>
+    </div>
+
+    <!-- DoD -->
+    <div class="tabpanel" id="p-dod" role="tabpanel" data-title="Definición de Hecho (DoD)">
+      <p class="muted">Un ticket solo puede pasar a <b>Resueltos / Cerrados</b> si cumple todos los criterios. Marca la lista como guía de verificación.</p>
+      <div id="dod-list"></div>
+      <div class="meter"><div id="dod-bar"></div></div>
+      <p class="muted small" id="dod-txt"></p>
+    </div>
+
+    <!-- Backlog -->
+    <div class="tabpanel" id="p-backlog" role="tabpanel" data-title="Product Backlog priorizado">
+      <p class="muted">Historias de usuario ordenadas por valor de negocio (MoSCoW). Estimación en puntos de historia (escala Fibonacci).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Historia de usuario</th><th>Prioridad</th><th>Puntos</th><th>Destino</th></tr></thead>
+          <tbody id="backlog-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">HelpDesk-PRO · José Pablo Ibañez Ibañez · ID 000149294 · Ingeniería en Sistemas · UPANA (Universidad Panamericana)</div>
+</footer>
+
+<!-- ============ MODAL NUEVO TICKET ============ -->
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <form id="form" method="dialog" class="dlg">
+    <h3 id="dlg-title">Nuevo ticket de soporte</h3>
+    <label for="f-title">Título</label>
+    <input id="f-title" required maxlength="90" placeholder="Ej. Sin acceso a la VPN desde casa">
+    <label for="f-desc">Descripción</label>
+    <textarea id="f-desc" rows="3" maxlength="220" placeholder="Describe el problema y el impacto"></textarea>
+    <div class="row">
+      <div><label for="f-prio">Prioridad</label>
+        <select id="f-prio"><option>Crítica</option><option>Alta</option><option selected>Media</option><option>Baja</option></select></div>
+      <div><label for="f-pts">Puntos</label>
+        <select id="f-pts"><option>1</option><option>2</option><option selected>3</option><option>5</option><option>8</option></select></div>
+    </div>
+    <div class="row">
+      <div><label for="f-tag">Etiqueta</label>
+        <select id="f-tag"><option>Red</option><option>Acceso/SSO</option><option>Impresoras</option><option>Software</option><option>Hardware</option><option>Correo</option><option>Seguridad</option></select></div>
+      <div><label for="f-user">Reportado por</label>
+        <input id="f-user" maxlength="40" placeholder="Nombre del usuario"></div>
+    </div>
+    <div class="dlg-btns">
+      <button type="button" class="btn btn-ghost" id="dlg-cancel">Cancelar</button>
+      <button type="submit" class="btn btn-accent">Crear ticket</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Firebase (SDK compat: funciona también abriendo el archivo localmente) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
