@@ -308,21 +308,21 @@ function drawBurndown(total, remaining) {
   let g = '';
   for (let i = 0; i <= 4; i++) {
     const v = total * i / 4, yy = y(v);
-    g += `<line x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="#e4dccd"/><text x="${L - 8}" y="${yy + 4}" font-size="11" fill="#7a7f92" text-anchor="end">${Math.round(v)}</text>`;
+    g += `<line x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="#2f3a4b"/><text x="${L - 8}" y="${yy + 4}" font-size="11" fill="#7a7f92" text-anchor="end">${Math.round(v)}</text>`;
   }
   for (let i = 0; i <= 10; i++) g += `<text x="${x(i)}" y="${H - 12}" font-size="11" fill="#7a7f92" text-anchor="middle">${i === 0 ? 'Inicio' : 'D' + i}</text>`;
-  g += `<line x1="${x(0)}" y1="${y(total)}" x2="${x(10)}" y2="${y(0)}" stroke="#a79f8e" stroke-width="2" stroke-dasharray="6 5"/>`;
-  g += `<line x1="${x(0)}" y1="${y(total)}" x2="${x(day)}" y2="${y(remaining)}" stroke="#5a4bc7" stroke-width="3" stroke-linecap="round"/>`;
-  g += `<circle cx="${x(0)}" cy="${y(total)}" r="4" fill="#5a4bc7"/><circle cx="${x(day)}" cy="${y(remaining)}" r="6" fill="#fffdf9" stroke="#5a4bc7" stroke-width="3"/>`;
-  g += `<text x="${Math.min(x(day) + 10, W - 80)}" y="${y(remaining) - 12}" font-size="12" font-weight="700" fill="#4638ab">${remaining} pts</text>`;
+  g += `<line x1="${x(0)}" y1="${y(total)}" x2="${x(10)}" y2="${y(0)}" stroke="#6b7280" stroke-width="2" stroke-dasharray="6 5"/>`;
+  g += `<line x1="${x(0)}" y1="${y(total)}" x2="${x(day)}" y2="${y(remaining)}" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>`;
+  g += `<circle cx="${x(0)}" cy="${y(total)}" r="4" fill="#8b5cf6"/><circle cx="${x(day)}" cy="${y(remaining)}" r="6" fill="#11161d" stroke="#8b5cf6" stroke-width="3"/>`;
+  g += `<text x="${Math.min(x(day) + 10, W - 80)}" y="${y(remaining) - 12}" font-size="12" font-weight="700" fill="#a78bfa">${remaining} pts</text>`;
   $('#burndown').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico burndown del Sprint">${g}</svg>`;
 }
 
-/* ---------- 7. Scrum: pestañas ---------- */
-document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
-  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b === btn)));
-  document.querySelectorAll('.tabpanel').forEach(p => p.classList.toggle('active', p.id === 'p-' + btn.dataset.tab));
-}));
+/* ---------- 7. Pestañas (Scrum y Plan) ---------- */
+document.querySelectorAll('#scrum, #plan').forEach(sec => sec.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
+  sec.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b === btn)));
+  sec.querySelectorAll('.tabpanel').forEach(p => p.classList.toggle('active', p.id === 'p-' + btn.dataset.tab));
+})));
 
 /* ---------- 8. Product Backlog (agregar / eliminar) ---------- */
 function renderBacklog() {
@@ -417,3 +417,135 @@ $('#btn-pdf').addEventListener('click', () => {
 setView(getAuth() ? 'app' : 'login');
 updateConn();
 stores.forEach(s => s.connect());
+
+/* ---------- 15. Plan del proyecto (Gantt, EDT, híbrido, riesgos, KPIs) ---------- */
+const PLAN_START = new Date(2026, 9, 5), NW = 14;
+const PLAN = [["F1", "Fase 01 · Inicio y planificación", "Cascada", [["1.1", "Acta de constitución y alcance", "Cascada", 1, 1, "—", "Product Owner", 1.0], ["1.2", "Requisitos e historias de usuario", "Cascada", 1, 1, "1.1", "Product Owner", 1.0], ["1.3", "EDT, cronograma y matriz de riesgos", "Cascada", 1, 2, "1.1", "Scrum Master", 1.0]]], ["F2", "Fase 02 · Análisis y diseño", "Cascada", [["2.1", "Modelo entidad-relación (10+ entidades)", "Cascada", 2, 2, "1.2", "Developer", 0.9], ["2.2", "Arquitectura modular y patrones de diseño", "Cascada", 3, 2, "2.1", "Developer", 0.3], ["2.3", "Prototipos UI/UX en tema oscuro", "Cascada", 2, 2, "1.2", "Developer", 0.75]]], ["F3", "Fase 03 · Incremento 1 · Núcleo", "Ágil", [["3.1", "Tablero Kanban y CRUD de tickets (MVP)", "Ágil", 1, 2, "1.2", "Developer", 1.0], ["3.2", "Base de datos en la nube con 10+ entidades", "Ágil", 3, 2, "2.1", "Developer", 0.25], ["3.3", "Autenticación y gestión de roles", "Ágil", 3, 2, "3.1", "Developer", 0.25]]], ["F4", "Fase 04 · Incremento 2 · Gestión", "Incremental", [["4.1", "CRUD Usuarios · Clientes · Departamentos", "Incremental", 5, 2, "3.3", "Developer", 0.0], ["4.2", "CRUD Activos · Categorías · SLA", "Incremental", 5, 2, "3.2", "Developer", 0.0], ["4.3", "CRUD Técnicos y escalamiento", "Incremental", 7, 2, "4.1", "Developer", 0.0], ["4.4", "Comentarios · adjuntos · historial", "Incremental", 7, 2, "4.2", "Developer", 0.0]]], ["F5", "Fase 05 · Incremento 3 · Reportes y móvil", "Incremental", [["5.1", "Reportes HTML dinámicos", "Incremental", 9, 1, "4.3", "Developer", 0.0], ["5.2", "Exportación de reportes a PDF", "Incremental", 10, 1, "5.1", "Developer", 0.0], ["5.3", "App móvil conectada a la base de datos", "Incremental", 9, 3, "4.4", "Developer", 0.0]]], ["F6", "Fase 06 · Calidad y estabilización", "Ágil", [["6.1", "Pruebas unitarias e integración continuas", "Ágil", 5, 7, "3.3", "Developer", 0.0], ["6.2", "Pruebas de aceptación (UAT)", "Ágil", 12, 1, "5.3", "Product Owner", 0.0]]], ["F7", "Fase 07 · Documentación y cierre", "Cascada", [["7.1", "Documentación técnica y manual de usuario", "Cascada", 11, 2, "5.2", "Developer", 0.0], ["7.2", "Despliegue y Sprint Review final", "Ágil", 13, 1, "6.2 · 7.1", "Scrum Master", 0.0], ["7.3", "Retrospectiva y lecciones aprendidas", "Ágil", 14, 1, "7.2", "Scrum Master", 0.0]]]];
+const HITOS = [["H1", "MVP Kanban demostrable (Review S1)", "Hito", 2, 1, "3.1", "Product Owner", 1.0], ["H2", "Diseño aprobado (ER + arquitectura)", "Hito", 4, 1, "2.2", "Product Owner", 0.0], ["H3", "Incremento 2 · 10+ CRUDs listos", "Hito", 8, 1, "4.3 · 4.4", "Product Owner", 0.0], ["H4", "Reportes y app móvil funcionales", "Hito", 11, 1, "5.3", "Product Owner", 0.0], ["H5", "Entrega final y presentación", "Hito", 13, 1, "7.2", "Product Owner", 0.0]];
+const RISKS = [["R1", "Sobrecarga: una sola persona asume los 3 roles de Scrum", 4, 4, "Time-boxing de 4 h/día · límite WIP de 2 · buffer en S13-S14", "Scrum Master", "Mitigando"], ["R2", "Crecimiento del alcance sobre las 10+ entidades", 4, 3, "Backlog priorizado MoSCoW · cambios solo en Refinamiento", "Product Owner", "Abierto"], ["R3", "Límites o reglas de seguridad de la base en la nube", 2, 4, "Exportar respaldos · probar con emulador local · reglas revisadas", "Developer", "Abierto"], ["R4", "Integración de la app móvil con la base de datos se retrasa", 3, 4, "Spike técnico en S6 · SDK único compartido · datos de prueba", "Developer", "Abierto"], ["R5", "Pérdida de código o de datos", 2, 5, "Git con commits diarios · repositorio remoto · copias semanales", "Developer", "Mitigando"], ["R6", "Defectos detectados demasiado tarde", 3, 3, "Pruebas continuas desde S5 · Definición de Hecho obligatoria", "Developer", "Abierto"], ["R7", "Reportes PDF con formato inconsistente", 3, 2, "Plantilla CSS de impresión · prueba en 2 navegadores", "Developer", "Abierto"], ["R8", "Poca disponibilidad por carga académica", 4, 5, "Bloques fijos en calendario · priorizar Must · holgura en hitos", "Scrum Master", "Mitigando"], ["R9", "Falla de conexión durante la demostración", 2, 4, "Datos de ejemplo locales · capturas y video de respaldo", "Product Owner", "Abierto"]];
+const METHOD_CLS = { 'Cascada': 'm-cas', 'Ágil': 'm-agi', 'Incremental': 'm-inc', 'Hito': 'm-hit' };
+let planSaved = lsGet('hdp_plan', {});
+
+const curWeek = () => Math.max(1, Math.min(NW, Math.floor((Date.now() - PLAN_START) / 6048e5) + 1));
+const planPct = (s, d, w) => Math.min(1, Math.max(0, (w - s + 0.5) / d));
+const estOf = (k, p) => k >= 1 ? 'Completado' : (p - k > 0.25 ? 'Atrasado' : (k > 0 ? 'En progreso' : 'Planificado'));
+const estCls = e => ({ 'Completado': 'st-ok', 'En progreso': 'st-go', 'Planificado': 'st-pl', 'Atrasado': 'st-late' }[e]);
+const wkDate = (w, end) => { const d = new Date(PLAN_START); d.setDate(d.getDate() + (w - 1) * 7 + (end ? 4 : 0)); return d.toLocaleDateString('es-GT', { day: '2-digit', month: 'short' }).replace('.', ''); };
+
+function planRows() {
+  const w = curWeek(), out = [];
+  const mk = (c, n, m, s, d, dep, r, k0, kind) => {
+    const k = planSaved[c] ?? k0, p = planPct(s, d, w);
+    return { kind, c, n, m, s, d, e: s + d - 1, dep, r, k, p, est: estOf(k, p) };
+  };
+  PLAN.forEach(([pc, pn, pm, ts]) => {
+    const kids = ts.map(t => mk(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], 'task'));
+    const s = Math.min(...kids.map(x => x.s)), e = Math.max(...kids.map(x => x.e)), W = kids.reduce((q, x) => q + x.d, 0);
+    const k = kids.reduce((q, x) => q + x.d * x.k, 0) / W, p = kids.reduce((q, x) => q + x.d * x.p, 0) / W;
+    out.push({ kind: 'phase', c: pc, n: pn, m: pm, s, d: e - s + 1, e, dep: '—', r: '—', k, p, est: estOf(k, p) });
+    out.push(...kids);
+  });
+  HITOS.forEach(h => out.push(mk(h[0], h[1], h[2], h[3], h[4], h[5], h[6], h[7], 'hito')));
+  return out;
+}
+
+function ganttHTML(rows, w) {
+  const cell = (r, i) => {
+    const on = i >= r.s && i <= r.e;
+    const cls = ['gc', i === w ? 'now' : ''];
+    if (on) cls.push(r.kind === 'hito' ? 'gh' : 'gb ' + estCls(r.est), i === r.s ? 'gs' : '', i === r.e ? 'ge' : '', r.kind === 'phase' ? 'gp' : '');
+    return `<i class="${cls.join(' ')}"></i>`;
+  };
+  let h = '<div class="gantt-wrap"><div class="gantt"><div class="g-row g-head"><span></span><span></span>';
+  for (let s = 1; s <= 7; s++) h += `<b class="sp">SP${s}</b>`;
+  h += '</div><div class="g-row g-head g-weeks"><span>Cód.</span><span>Actividad</span>';
+  for (let i = 1; i <= NW; i++) h += `<b class="${i === w ? 'now' : ''}" title="${wkDate(i)} – ${wkDate(i, 1)}">S${i}</b>`;
+  h += '</div>';
+  let hitoHead = false;
+  rows.forEach(r => {
+    if (r.kind === 'hito' && !hitoHead) { hitoHead = true; h += '<div class="g-row g-sep"><span></span><span>Hitos clave</span></div>'; }
+    h += `<div class="g-row ${r.kind}"><span class="gcode">${esc(r.c)}</span><span class="gname" title="${esc(r.n)}">${esc(r.n)}</span>`;
+    for (let i = 1; i <= NW; i++) h += cell(r, i);
+    h += '</div>';
+  });
+  h += '</div></div>';
+  h += `<div class="legend gl"><span><i class="sw st-ok"></i>Completado</span><span><i class="sw st-go"></i>En progreso</span><span><i class="sw st-pl"></i>Planificado</span><span><i class="sw st-hit"></i>Hito</span><span><i class="sw st-late"></i>Atrasado</span><span>Columna resaltada = semana actual (S${w})</span></div>`;
+  h += '<div class="crit"><b>Cadena crítica (sin holgura)</b><code>1.2 ▸ 2.1 ▸ 3.2 ▸ 4.2 ▸ 4.4 ▸ 5.3 ▸ 6.2 ▸ 7.2 ▸ 7.3</code></div>';
+  return h;
+}
+
+function edtHTML(rows) {
+  let h = '<div class="panel-bar"><p class="note">Mueve el control de avance de cada tarea; las fases, el Gantt y los KPIs se actualizan solos. Se guarda en este navegador.</p><button class="btn btn-ghost no-print" id="btn-plan-reset" type="button">Restablecer avance</button></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Actividad</th><th>Metodología</th><th>Semanas</th><th>Dependencias</th><th>Responsable</th><th>Avance</th><th>Estado</th></tr></thead><tbody>';
+  rows.forEach(r => {
+    const ctl = r.kind === 'phase' ? `<b>${Math.round(r.k * 100)}%</b>` :
+      `<span class="print-only">${Math.round(r.k * 100)}%</span><label class="rng no-print"><input type="range" min="0" max="100" step="5" value="${Math.round(r.k * 100)}" data-c="${esc(r.c)}" aria-label="Avance de ${esc(r.c)}"><b>${Math.round(r.k * 100)}%</b></label>`;
+    h += `<tr class="${r.kind}"><td class="id">${esc(r.c)}</td><td>${esc(r.n)}</td><td><span class="badge ${METHOD_CLS[r.m]}">${esc(r.m)}</span></td><td>S${r.s}${r.e > r.s ? '–S' + r.e : ''}</td><td>${esc(r.dep)}</td><td>${esc(r.r)}</td><td>${ctl}</td><td><span class="badge ${estCls(r.est)}">${r.est}</span></td></tr>`;
+  });
+  return h + '</tbody></table></div>';
+}
+
+const HYBRID = [
+  ['Cascada', 'S1 – S4', 'Alcance, requisitos y modelo ER de 10+ entidades aprobados una sola vez.', 'Acta · EDT · diagrama ER · arquitectura'],
+  ['Ágil', 'S1 – S12', 'Sprints de 2 semanas con Review y Retrospectiva; Kanban con WIP máximo de 2.', 'MVP en la nube · pruebas continuas · UAT'],
+  ['Incremental', 'S5 – S11', 'Un módulo completo por sprint: CRUDs, luego reportes HTML/PDF y app móvil.', '10+ CRUDs · reportes · app móvil'],
+  ['Cascada', 'S11 – S14', 'Documentación formal y cierre, con despliegue y retrospectiva final.', 'Manual · despliegue · lecciones aprendidas']
+];
+const hybridHTML = () => '<p class="note">Se fusiona el diseño anticipado de Cascada con la entrega frecuente de Ágil y la construcción por módulos del modelo Incremental.</p><div class="grid-2 hy">' +
+  HYBRID.map(x => `<article class="hy-card ${METHOD_CLS[x[0]]}"><div class="hy-top"><b>${x[0]}</b><span>${x[1]}</span></div><p>${x[2]}</p><small>${x[3]}</small></article>`).join('') +
+  '</div><ul class="hy-list"><li>Diseño primero, código después: evita rehacer las 10+ entidades.</li><li>Valor cada 2 semanas: demostración y mejora aplicada al siguiente sprint.</li><li>Un módulo solo se cierra si cumple la Definición de Hecho.</li><li>Capacidad protegida: 40 h por sprint y máximo 2 tickets en curso.</li></ul>';
+
+const lvl = s => s >= 15 ? ['Crítico', 'st-late'] : s >= 9 ? ['Alto', 'st-hit'] : s >= 5 ? ['Medio', 'st-go'] : ['Bajo', 'st-ok'];
+function risksHTML() {
+  let h = '<p class="note">Severidad = Probabilidad × Impacto (escala 1–5). Crítico ≥ 15 · Alto ≥ 9 · Medio ≥ 5.</p><div class="table-wrap"><table><thead><tr><th>ID</th><th>Riesgo</th><th>P×I</th><th>Nivel</th><th>Mitigación</th><th>Responsable</th></tr></thead><tbody>';
+  RISKS.forEach(r => { const s = r[2] * r[3], l = lvl(s); h += `<tr><td class="id">${r[0]}</td><td>${esc(r[1])}</td><td>${r[2]}×${r[3]} = <b>${s}</b></td><td><span class="badge ${l[1]}">${l[0]}</span></td><td>${esc(r[4])}</td><td>${esc(r[5])}</td></tr>`; });
+  h += '</tbody></table></div><h4 class="hm-title">Mapa de calor (probabilidad ↑ · impacto →)</h4><div class="heat"><span></span>';
+  for (let i = 1; i <= 5; i++) h += `<b>I${i}</b>`;
+  for (let p = 5; p >= 1; p--) {
+    h += `<b>P${p}</b>`;
+    for (let i = 1; i <= 5; i++) h += `<div class="hc ${lvl(p * i)[1]}">${RISKS.filter(r => r[2] === p && r[3] === i).map(r => r[0]).join(' ')}</div>`;
+  }
+  return h + '</div>';
+}
+
+function kpisHTML(rows, w) {
+  const t = rows.filter(r => r.kind === 'task'), W = t.reduce((a, r) => a + r.d, 0);
+  const av = t.reduce((a, r) => a + r.d * r.k, 0) / W, pl = t.reduce((a, r) => a + r.d * r.p, 0) / W, spi = pl ? av / pl : 1;
+  const n = e => t.filter(r => r.est === e).length, hs = rows.filter(r => r.kind === 'hito');
+  const crit = RISKS.filter(r => r[2] * r[3] >= 15).length;
+  const end = new Date(PLAN_START); end.setDate(end.getDate() + (NW - 1) * 7 + 4);
+  const card = (l, v, s, c) => `<div class="kpi ${c}"><span>${l}</span><strong>${v}</strong><small>${s}</small></div>`;
+  let h = '<div class="kpis">' +
+    card('Avance real', Math.round(av * 100) + '%', 'ponderado por duración', 'st-ok') +
+    card('Avance planificado', Math.round(pl * 100) + '%', 'esperado a hoy (S' + w + ')', 'st-go') +
+    card('SPI (real ÷ plan)', spi.toFixed(2), '≥ 1.00 adelantado · < 0.90 alerta', spi < 0.9 ? 'st-late' : 'st-hit') +
+    card('Semana actual', 'S' + w, 'de ' + NW + ' semanas', 'st-pl') +
+    card('Completadas', n('Completado') + ' / ' + t.length, 'tareas', 'st-ok') +
+    card('En progreso', n('En progreso'), 'tareas activas', 'st-go') +
+    card('Atrasadas', n('Atrasado'), 'plan − real > 25%', 'st-late') +
+    card('Hitos cumplidos', hs.filter(x => x.k >= 1).length + ' / ' + hs.length, 'hitos clave', 'st-hit') +
+    card('Riesgos críticos', crit + ' / ' + RISKS.length, 'en seguimiento', 'st-late') +
+    card('Entrega final', end.toLocaleDateString('es-GT', { day: '2-digit', month: 'short', year: 'numeric' }).replace('.', ''), 'fin de la S' + NW, 'st-ok') + '</div>';
+  h += '<h4 class="hm-title">Avance por fase</h4><div class="phases">';
+  rows.filter(r => r.kind === 'phase').forEach(r => { h += `<div class="ph"><span>${esc(r.n)}</span><div class="meter"><div class="${estCls(r.est)}" style="width:${Math.round(r.k * 100)}%"></div></div><b>${Math.round(r.k * 100)}%</b></div>`; });
+  return { html: h + '</div>', av, spi, late: n('Atrasado') };
+}
+
+function renderPlan() {
+  const rows = planRows(), w = curWeek(), k = kpisHTML(rows, w);
+  $('#p-gantt').innerHTML = ganttHTML(rows, w);
+  $('#p-edt').innerHTML = edtHTML(rows);
+  $('#p-hibrido').innerHTML = hybridHTML();
+  $('#p-riesgos').innerHTML = risksHTML();
+  $('#p-kpis').innerHTML = k.html;
+  $('#plan-sum').textContent = `Avance ${Math.round(k.av * 100)}% · SPI ${k.spi.toFixed(2)} · ${k.late} atrasadas`;
+}
+$('#p-edt').addEventListener('change', e => {
+  const c = e.target.dataset && e.target.dataset.c;
+  if (!c) return;
+  planSaved[c] = e.target.value / 100; lsSet('hdp_plan', planSaved); renderPlan(); toast(`${c} · avance ${e.target.value}%`);
+});
+$('#p-edt').addEventListener('click', e => {
+  if (e.target.id !== 'btn-plan-reset') return;
+  planSaved = {}; lsSet('hdp_plan', planSaved); renderPlan(); toast('Avance restablecido');
+});
+renderPlan();

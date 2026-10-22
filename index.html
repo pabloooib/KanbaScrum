@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d1117">
 <title>HelpDesk-PRO · Soporte técnico | UPANA</title>
 <meta name="description" content="HelpDesk-PRO: gestión de soporte técnico e incidencias. Proyecto individual de Administración de Proyectos, UPANA.">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -54,6 +55,7 @@
       <nav class="nav-links" aria-label="Secciones">
         <a href="#kanban">Kanban</a>
         <a href="#scrum">Scrum</a>
+        <a href="#plan">Plan</a>
       </nav>
       <div class="nav-right">
         <span class="conn" id="conn" title="Estado de la base de datos"><i></i><span id="conn-text">Conectando…</span></span>
@@ -215,6 +217,28 @@
           </table>
         </div>
       </div>
+    </section>
+
+    <!-- ============ PLAN DEL PROYECTO ============ -->
+    <section class="section" id="plan">
+      <div class="sec-head">
+        <div>
+          <h2>Plan del proyecto</h2>
+          <p>Gantt, EDT, enfoque híbrido, riesgos y KPIs. Cambia el avance de una tarea y todo se recalcula. <span class="sum no-print" id="plan-sum"></span></p>
+        </div>
+      </div>
+      <div class="tabs no-print" role="tablist" aria-label="Módulos del plan">
+        <button class="tab" role="tab" aria-selected="true"  data-tab="gantt"   type="button">Diagrama de Gantt</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="edt"     type="button">EDT / Actividades</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="hibrido" type="button">Enfoque híbrido</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="riesgos" type="button">Riesgos</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="kpis"    type="button">KPIs</button>
+      </div>
+      <div class="tabpanel active" id="p-gantt"   role="tabpanel" data-title="Diagrama de Gantt · 14 semanas"></div>
+      <div class="tabpanel" id="p-edt"     role="tabpanel" data-title="Estructura de desglose del trabajo (EDT)"></div>
+      <div class="tabpanel" id="p-hibrido" role="tabpanel" data-title="Enfoque híbrido: Cascada + Ágil + Incremental"></div>
+      <div class="tabpanel" id="p-riesgos" role="tabpanel" data-title="Matriz de riesgos y mitigación"></div>
+      <div class="tabpanel" id="p-kpis"    role="tabpanel" data-title="Indicadores clave (KPIs)"></div>
     </section>
   </div>
 
